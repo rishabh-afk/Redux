@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
 import Header from "../component/Header";
+import { useSelector, useDispatch } from "react-redux";
+import { remove } from "../store/slice/cartSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const [product, setProduct] = useState([]);
-  const handlesubmit = async () => {
-    const res = await fetch("https://fakestoreapi.com/products");
-    const products = await res.json();
-    setProduct(products);
+  const disptach = useDispatch();
+  const navigate = useNavigate();
+  const product = useSelector((state) => state.cart);
+  const removeFromCart = (id) => {
+    try {
+      disptach(remove(id));
+      if (product.length === 0) {
+        navigate("/");
+      }
+      toast.success("Removed successfully");
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
   };
-  useEffect(() => {
-    handlesubmit();
-  }, []);
   return (
     <>
       <Header />
@@ -25,7 +33,7 @@ const Cart = () => {
               <p className="text-sm py-4 w-1/2">{product.description}</p>
               <p className="w-1/4 text-center">Rs. {product.price}</p>
               <button
-                // onClick={() => addtocart(product.id)}
+                onClick={() => removeFromCart(product.id)}
                 className="text-white text-lg bg-red-500 px-6 py-2 w-fit rounded"
               >
                 Remove

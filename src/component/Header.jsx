@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const cartItemsCount = useSelector((state) => state.cart);
   return (
     <div className="h-16 shadow-blue-500 bg-amber-600 text-white">
       <div className="mx-8 flex items-center h-full">
@@ -13,7 +15,7 @@ const Header = () => {
             <NavLink to={"/cart"}>
               Cart
               <span className="border-2 rounded-full ml-1 px-[6px] text-white text-base text-center">
-                0
+                {cartItemsCount.length}
               </span>
             </NavLink>
           </li>
