@@ -5,20 +5,20 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const disptach = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const product = useSelector((state) => state.cart);
   const removeFromCart = (id) => {
     try {
-      disptach(remove(id));
-      if (product.length === 0) {
-        navigate("/");
-      }
+      dispatch(remove(id));
       toast.success("Removed successfully");
     } catch (error) {
       toast.error("Something went wrong");
     }
   };
+  if (product.length === 0) {
+    navigate("/");
+  }
   return (
     <>
       <Header />
